@@ -6,7 +6,7 @@ import IconSettings from '@salesforce/design-system-react/components/icon-settin
 class form extends React.Component {
   render() {
     return (
-      <IconSettings iconPath="/assets/icons">
+      <IconSettings iconPath="css/icons">
 				<AlertContainer>
 					<Alert
 						icon={<Icon category="utility" name="user" />}

@@ -3,6 +3,7 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const webpack_rules = [];
 const webpack_plugins = [];
 const pathConfig = {
@@ -14,7 +15,7 @@ const pathConfig = {
     img: 'img/[hash]-[name].[ext]',
     js: 'js/bundle-[chunkhash].js',
     css: 'css/[name]-min.css',
-    fonts: 'public/fonts/[name].[ext]'
+    fonts: 'css/fonts/[name].[ext]'
   }
 };
 const webpackOption = {
@@ -91,7 +92,6 @@ let cleanOptions = {
   allowExternal: false,
 };
 let pathsToClean = ['dist/'];
-
 webpack_rules.push(babelLoader);
 webpack_rules.push(cssLoader);
 webpack_rules.push(imageLoader);
@@ -106,5 +106,11 @@ webpack_plugins.push(new webpack.DefinePlugin({
     NODE_ENV: JSON.stringify('production')
   }
 }))
+webpack_plugins.push(new CopyWebpackPlugin([
+  {
+    from: './src/assets',
+    to: './css'
+  },
+]));
 webpack_plugins.push(new CleanWebpackPlugin(pathsToClean, cleanOptions))
 module.exports = webpackOption;
