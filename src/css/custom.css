@@ -1,0 +1,11 @@
+.body {
+    background-color: red;
+}
+
+.settingIcon {
+    background-image: url('./../img/mario.png');
+    background-repeat: no-repeat;
+    height: 50px;
+    width: 50px;
+    display: inline-block;
+}
