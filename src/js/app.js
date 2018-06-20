@@ -10,13 +10,14 @@
 // const add2 = num => num + 2
 // console.log(add2(2)); //testing arrow function
 require('../../node_modules/@salesforce-ux/design-system/assets/styles/salesforce-lightning-design-system.min.css')
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Loadable from 'react-loadable';
 // import App from './form';
 const App = Loadable({
   loader: () => import('./form'),
-  loading: () => <div>Loading...</div>,
+  loading: () => <h1>Loading...</h1>,
 });
 class Columns extends React.Component {
     render() {

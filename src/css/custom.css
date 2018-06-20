@@ -2,10 +2,20 @@
     background-color: red;
 }
 
+
+/*
 .settingIcon {
     background-image: url('./../img/mario.png');
     background-repeat: no-repeat;
     height: 50px;
     width: 50px;
     display: inline-block;
+} */
+
+.full-width-datepicker .slds-dropdown-trigger {
+    width: 100% !important;
+}
+
+.word-break {
+    word-wrap: break-word !important;
 }
