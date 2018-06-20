@@ -2,7 +2,7 @@
 import React from "react";
 import Combobox from "@salesforce/design-system-react/components/combobox";
 import Icon from "@salesforce/design-system-react/components/icon";
-import escapeRegExp from "lodash.escaperegexp";
+import comboboxFilterAndLimit from "@salesforce/design-system-react/components/combobox/filter";
 import IconSettings from "@salesforce/design-system-react/components/icon-settings";
 import Button from "@salesforce/design-system-react/components/button";
 
@@ -28,25 +28,55 @@ const currency = [
     type: "account"
   }
 ];
-
-
+const destination = [
+  {
+    id: "1",
+    label: "London",
+    subTitle: "Destination, London",
+    type: "account"
+  },
+  {
+    id: "2",
+    label: "UK",
+    subTitle: "Destination, UK",
+    type: "account"
+  }
+];
+const course = [
+  {
+    id: "1",
+    label: "London",
+    subTitle: "Destination, London",
+    type: "account"
+  },
+  {
+    id: "2",
+    label: "UK",
+    subTitle: "Destination, UK",
+    type: "account"
+  }
+];
+const accountsWithIcon = destination.map(elem =>
+  Object.assign(elem, {
+    icon: <Icon assistiveText="Account" category="standard" name={elem.type} />
+  })
+);
 
 class form extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
-			program: '',
-			currency: ''
+			inputValue : '',
+      program: "",
+      currency: "",
+			destination: []
     };
-    // this.handleButtonClicked = this.handleButtonClicked.bind(this);
   }
   handleButtonClicked(event) {
     console.log(this.state);
   }
   render() {
-    {
-      console.log(this.state);
-    }
     return (
       <div className="slds-grid slds-template_bottom-magnet">
         <IconSettings iconPath="/css/icons">
@@ -67,7 +97,7 @@ class form extends React.Component {
                             ...Object.keys(data).map(key => data[key])
                           );
                         } else if (console) {
-                          console.log("onSelect", event, data);
+                          //console.log("onSelect", event, data);
                         }
                         this.setState({
                           ...this.state,
@@ -81,7 +111,6 @@ class form extends React.Component {
                     }}
                     options={accounts}
                     selection={this.state.program}
-                    value={this.state.inputValue}
                     variant="readonly"
                     required
                   />
@@ -97,7 +126,7 @@ class form extends React.Component {
                             ...Object.keys(data).map(key => data[key])
                           );
                         } else if (console) {
-                          console.log("onSelect", event, data);
+                          //console.log("onSelect", event, data);
                         }
                         this.setState({
                           ...this.state,
@@ -111,9 +140,140 @@ class form extends React.Component {
                     }}
                     options={currency}
                     selection={this.state.currency}
-                    value={this.state.inputValue}
                     variant="readonly"
                     required
+                  />
+                </div>
+              </div>
+              <div class="slds-col slds-grid slds-size_1-of-1">
+                <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
+                  <Combobox
+                    id="combobox-unique-id"
+                    events={{
+                      onChange: (event, { value }) => {
+                        if (this.props.action) {
+                          this.props.action("onChange")(event, value);
+                        } else if (console) {
+                          console.log("onChange", event, value);
+                        }
+                        this.setState({ inputValue: value });
+                      },
+                      onRequestRemoveSelectedOption: (event, data) => {
+                        this.setState({
+                          inputValue: "",
+													destination: data.selection
+                        });
+                      },
+                      onSubmit: (event, { value }) => {
+                        if (this.props.action) {
+                          this.props.action("onChange")(event, value);
+                        } else if (console) {
+                         // console.log("onChange", event, value);
+                        }
+                        this.setState({
+                          inputValue: "",
+													destination : [
+                            ...this.state.destination,
+													]
+                        });
+                      },
+                      onSelect: (event, data) => {
+                        if (this.props.action) {
+                          this.props.action("onSelect")(
+                            event,
+                            ...Object.keys(data).map(key => data[key])
+                          );
+                        } else if (console) {
+                         // console.log("onSelect", event, data);
+                        }
+                        this.setState({
+                          inputValue: "",
+													destination: data.selection
+                        });
+                      }
+                    }}
+                    labels={{
+                      label: "Destination",
+                      placeholder: "Search your destination"
+										}}
+										required
+                    options={comboboxFilterAndLimit({
+                      inputValue: this.state.inputValue,
+                      options: accountsWithIcon,
+                      selection: this.state.destination
+                    })}
+                    selection={this.state.destination}
+                    value={
+                      this.state.selectedOption
+                        ? this.state.selectedOption.label
+                        : this.state.inputValue
+                    }
+                    variant="inline-listbox"
+                  />
+                </div>
+								<div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
+                  <Combobox
+                    id="combobox-unique-id"
+                    events={{
+                      onChange: (event, { value }) => {
+                        if (this.props.action) {
+                          this.props.action("onChange")(event, value);
+                        } else if (console) {
+                          console.log("onChange", event, value);
+                        }
+                        this.setState({ inputValue: value });
+                      },
+                      onRequestRemoveSelectedOption: (event, data) => {
+                        this.setState({
+                          inputValue: "",
+													destination: data.selection
+                        });
+                      },
+                      onSubmit: (event, { value }) => {
+                        if (this.props.action) {
+                          this.props.action("onChange")(event, value);
+                        } else if (console) {
+                         // console.log("onChange", event, value);
+                        }
+                        this.setState({
+                          inputValue: "",
+													destination : [
+                            ...this.state.destination,
+													]
+                        });
+                      },
+                      onSelect: (event, data) => {
+                        if (this.props.action) {
+                          this.props.action("onSelect")(
+                            event,
+                            ...Object.keys(data).map(key => data[key])
+                          );
+                        } else if (console) {
+                         // console.log("onSelect", event, data);
+                        }
+                        this.setState({
+                          inputValue: "",
+													destination: data.selection
+                        });
+                      }
+                    }}
+                    labels={{
+                      label: "Course",
+                      placeholder: "Select course"
+										}}
+										required
+                    options={comboboxFilterAndLimit({
+                      inputValue: this.state.inputValue,
+                      options: accountsWithIcon,
+                      selection: this.state.destination
+                    })}
+                    selection={this.state.destination}
+                    value={
+                      this.state.selectedOption
+                        ? this.state.selectedOption.label
+                        : this.state.inputValue
+                    }
+                    variant="inline-listbox"
                   />
                 </div>
               </div>
@@ -130,7 +290,5 @@ class form extends React.Component {
     );
   }
 }
-
-form.displayName = "ComboboxExample";
 
 export default form;
