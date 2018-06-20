@@ -28,6 +28,34 @@ const currency = [
     type: "account",
   },
 ];
+const brochureYear = [
+  {
+    id: "1",
+    label: "2017",
+    subTitle: "Account • San Francisco",
+    type: "account",
+  },
+  {
+    id: "2",
+    label: "2018",
+    subTitle: "Account • San Francisco",
+    type: "account",
+  },
+];
+const brochureSeason = [
+  {
+    id: "1",
+    label: "Norway",
+    subTitle: "Account • San Francisco",
+    type: "account",
+  },
+  {
+    id: "2",
+    label: "Other",
+    subTitle: "Account • San Francisco",
+    type: "account",
+  },
+];
 const destination = [
   {
     id: "1",
@@ -72,12 +100,14 @@ class form extends React.Component {
     super(props);
 
     this.state = {
-      program: "",
-      currency: "",
+      program: [],
+      currency: [],
 			destination: [],
-			inputValueDestination: "",
+			inputValueDestination: [],
 			course: [],
-			inputValueCourse: "",
+			inputValueCourse: [],
+			year:[],
+			season:[]
     };
   }
   handleButtonClicked(event) {
@@ -139,6 +169,60 @@ class form extends React.Component {
                     }}
                     options={currency}
                     selection={this.state.currency}
+                    variant="readonly"
+                    required
+                  />
+                </div>
+              </div>
+							<div class="slds-col slds-grid slds-size_1-of-1">
+                <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
+                  <Combobox
+                    id="combobox-unique-id"
+                    events={{
+                      onSelect: (event, data) => {
+                        if (this.props.action) {
+                          this.props.action("onSelect")(event, ...Object.keys(data).map(key => data[key]));
+                        } else if (console) {
+                          //console.log("onSelect", event, data);
+                        }
+                        this.setState({
+                          ...this.state,
+                          year: data.selection,
+                        });
+                      },
+                    }}
+                    labels={{
+                      label: "Brochure Year",
+                      placeholder: "Select year",
+                    }}
+                    options={brochureYear}
+                    selection={this.state.year}
+                    variant="readonly"
+                    required
+                  />
+                </div>
+                <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
+                  <Combobox
+                    id="combobox-unique-id"
+                    events={{
+                      onSelect: (event, data) => {
+                        if (this.props.action) {
+                          this.props.action("onSelect")(event, ...Object.keys(data).map(key => data[key]));
+                        } else if (console) {
+                         // console.log("onSelect", event, data);
+                        }
+                        this.setState({
+                          ...this.state,
+                          season: data.selection,
+                        });
+                      },
+                    }}
+                    labels={{
+                      label: "Brochure Season",
+                      placeholder: "Select brochure season",
+                    }}
+                    options={brochureSeason}
+                    selection={this.state.season}
                     variant="readonly"
                     required
                   />
