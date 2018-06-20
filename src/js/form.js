@@ -1,27 +1,106 @@
-import React from 'react';
-import Alert from '@salesforce/design-system-react/components/alert';
-import AlertContainer from '@salesforce/design-system-react/components/alert/container';
-import Icon from '@salesforce/design-system-react/components/icon';
-import IconSettings from '@salesforce/design-system-react/components/icon-settings';
+/* eslint-disable no-console, react/prop-types */
+import React from "react";
+import Combobox from "@salesforce/design-system-react/components/combobox";
+import Icon from "@salesforce/design-system-react/components/icon";
+import escapeRegExp from "lodash.escaperegexp";
+import IconSettings from "@salesforce/design-system-react/components/icon-settings";
+import Button from "@salesforce/design-system-react/components/button";
+
+const accounts = [
+  {
+    id: "1",
+    label: "Acme",
+    subTitle: "Account • San Francisco",
+    type: "account",
+  },
+  {
+    id: "2",
+    label: "Salesforce.com, Inc.",
+    subTitle: "Account • San Francisco",
+    type: "account",
+  },
+  {
+    id: "3",
+    label: "Paddy's Pub",
+    subTitle: "Account • Boston, MA",
+    type: "account",
+  },
+  {
+    id: "4",
+    label: "Tyrell Corp",
+    subTitle: "Account • San Francisco, CA",
+    type: "account",
+  },
+  {
+    id: "5",
+    label: "Paper St. Soap Company",
+    subTitle: "Account • Beloit, WI",
+    type: "account",
+  },
+  {
+    id: "6",
+    label: "Nakatomi Investments",
+    subTitle: "Account • Chicago, IL",
+    type: "account",
+  },
+  { id: "7", label: "Acme Landscaping", type: "account" },
+  {
+    id: "8",
+    label: "Acme Construction",
+    subTitle: "Account • Grand Marais, MN",
+    type: "account",
+  },
+];
+
 class form extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      inputValue: "",
+      selection: [],
+    };
+    // this.handleButtonClicked = this.handleButtonClicked.bind(this);
+  }
+  handleButtonClicked(event) {
+    console.log(this.state);
+  }
   render() {
+    {
+      console.log(this.state);
+    }
     return (
-      <IconSettings iconPath="css/icons">
-				<AlertContainer>
-					<Alert
-						icon={<Icon category="utility" name="user" />}
-						labels={{
-							heading: 'Logged in as John Smith (johnsmith@acme.com).',
-							headingLink: 'Log out',
-						}}
-						onClickHeadingLink={() => {
-							console.log('Link clicked.');
-						}}
-					/>
-				</AlertContainer>
-			</IconSettings>
-      );
+      <IconSettings iconPath="/css/icons">
+        <Combobox
+          id="combobox-unique-id"
+          events={{
+            onSelect: (event, data) => {
+              if (this.props.action) {
+                this.props.action("onSelect")(event, ...Object.keys(data).map(key => data[key]));
+              } else if (console) {
+                console.log("onSelect", event, data);
+              }
+              this.setState({
+                inputValue: "",
+                selection: data.selection,
+              });
+            },
+          }}
+          labels={{
+            label: "Search",
+            placeholder: "Search Salesforce",
+          }}
+          options={accounts}
+          selection={this.state.selection}
+          value={this.state.inputValue}
+          variant="readonly"
+        />
+
+        <Button id="tuesday-alt" label="Submit and go to next tab" onClick={e => this.handleButtonClicked(e)} />
+      </IconSettings>
+    );
   }
 }
+
+form.displayName = "ComboboxExample";
 
 export default form;
