@@ -11,55 +11,60 @@ const accounts = [
     id: "1",
     label: "AY",
     subTitle: "Account • San Francisco",
-    type: "account"
+    type: "account",
   },
   {
     id: "2",
     label: "EXC",
     subTitle: "Account • San Francisco",
-    type: "account"
-  }
+    type: "account",
+  },
 ];
 const currency = [
   {
     id: "1",
     label: "Norway",
     subTitle: "Account • San Francisco",
-    type: "account"
-  }
+    type: "account",
+  },
 ];
 const destination = [
   {
     id: "1",
     label: "London",
     subTitle: "Destination, London",
-    type: "account"
+    type: "account",
   },
   {
     id: "2",
     label: "UK",
     subTitle: "Destination, UK",
-    type: "account"
-  }
+    type: "account",
+  },
 ];
 const course = [
   {
     id: "1",
-    label: "London",
+    label: "Course Details 1",
     subTitle: "Destination, London",
-    type: "account"
+    type: "account",
   },
   {
     id: "2",
-    label: "UK",
+    label: "Course Details 2",
     subTitle: "Destination, UK",
-    type: "account"
-  }
+    type: "account",
+  },
 ];
-const accountsWithIcon = destination.map(elem =>
+const accountsWithIconDestination = destination.map(elem =>
   Object.assign(elem, {
-    icon: <Icon assistiveText="Account" category="standard" name={elem.type} />
-  })
+    icon: <Icon assistiveText="Account" category="standard" name={elem.type} />,
+  }),
+);
+const accountsWithIconCourse = course.map(elem =>
+  Object.assign(elem, {
+    icon: <Icon assistiveText="Account" category="standard" name={elem.type} />,
+  }),
 );
 
 class form extends React.Component {
@@ -67,10 +72,12 @@ class form extends React.Component {
     super(props);
 
     this.state = {
-			inputValue : '',
       program: "",
       currency: "",
-			destination: []
+			destination: [],
+			inputValueDestination: "",
+			course: [],
+			inputValueCourse: "",
     };
   }
   handleButtonClicked(event) {
@@ -82,9 +89,7 @@ class form extends React.Component {
         <IconSettings iconPath="/css/icons">
           <div className="slds-col slds-size_4-of-12">
             <div className="slds-form-element">
-              <div className="slds-text-heading_small slds-p-around_xx-small">
-                React Ligthing demo
-              </div>
+              <div className="slds-text-heading_small slds-p-around_xx-small">React Ligthing demo</div>
               <div class="slds-col slds-grid slds-size_1-of-1">
                 <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
                   <Combobox
@@ -92,22 +97,19 @@ class form extends React.Component {
                     events={{
                       onSelect: (event, data) => {
                         if (this.props.action) {
-                          this.props.action("onSelect")(
-                            event,
-                            ...Object.keys(data).map(key => data[key])
-                          );
+                          this.props.action("onSelect")(event, ...Object.keys(data).map(key => data[key]));
                         } else if (console) {
                           //console.log("onSelect", event, data);
                         }
                         this.setState({
                           ...this.state,
-                          program: data.selection[0].label
+                          program: data.selection,
                         });
-                      }
+                      },
                     }}
                     labels={{
                       label: "Program",
-                      placeholder: "Select program"
+                      placeholder: "Select program",
                     }}
                     options={accounts}
                     selection={this.state.program}
@@ -121,22 +123,19 @@ class form extends React.Component {
                     events={{
                       onSelect: (event, data) => {
                         if (this.props.action) {
-                          this.props.action("onSelect")(
-                            event,
-                            ...Object.keys(data).map(key => data[key])
-                          );
+                          this.props.action("onSelect")(event, ...Object.keys(data).map(key => data[key]));
                         } else if (console) {
-                          //console.log("onSelect", event, data);
+                         // console.log("onSelect", event, data);
                         }
                         this.setState({
                           ...this.state,
-                          currency: data.selection[0].label
+                          currency: data.selection,
                         });
-                      }
+                      },
                     }}
                     labels={{
                       label: "Currency",
-                      placeholder: "Select currency"
+                      placeholder: "Select currency",
                     }}
                     options={currency}
                     selection={this.state.currency}
@@ -148,141 +147,101 @@ class form extends React.Component {
               <div class="slds-col slds-grid slds-size_1-of-1">
                 <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
                   <Combobox
-                    id="combobox-unique-id"
+										id="destination"
+										className="destination"
                     events={{
                       onChange: (event, { value }) => {
                         if (this.props.action) {
                           this.props.action("onChange")(event, value);
                         } else if (console) {
-                          console.log("onChange", event, value);
+                         // console.log("onChangeDestination", event, value);
                         }
-                        this.setState({ inputValue: value });
+                        this.setState({ inputValueDestination: value });
                       },
                       onRequestRemoveSelectedOption: (event, data) => {
                         this.setState({
-                          inputValue: "",
-													destination: data.selection
+                          inputValueDestination: "",
+                          destination: data.selection,
                         });
                       },
-                      onSubmit: (event, { value }) => {
-                        if (this.props.action) {
-                          this.props.action("onChange")(event, value);
-                        } else if (console) {
-                         // console.log("onChange", event, value);
-                        }
-                        this.setState({
-                          inputValue: "",
-													destination : [
-                            ...this.state.destination,
-													]
-                        });
-                      },
+
                       onSelect: (event, data) => {
                         if (this.props.action) {
-                          this.props.action("onSelect")(
-                            event,
-                            ...Object.keys(data).map(key => data[key])
-                          );
+                          this.props.action("onSelect")(event, ...Object.keys(data).map(key => data[key]));
                         } else if (console) {
-                         // console.log("onSelect", event, data);
+                          // console.log("onSelectDestination", event, data);
                         }
                         this.setState({
-                          inputValue: "",
-													destination: data.selection
+                          inputValueDestination: "",
+                          destination: data.selection,
                         });
-                      }
+                      },
                     }}
                     labels={{
                       label: "Destination",
-                      placeholder: "Search your destination"
-										}}
-										required
+                      placeholder: "Search your destination",
+                    }}
+                    required
                     options={comboboxFilterAndLimit({
-                      inputValue: this.state.inputValue,
-                      options: accountsWithIcon,
-                      selection: this.state.destination
+                      inputValue: this.state.inputValueDestination,
+                      options: accountsWithIconDestination,
+                      selection: this.state.destination,
                     })}
                     selection={this.state.destination}
-                    value={
-                      this.state.selectedOption
-                        ? this.state.selectedOption.label
-                        : this.state.inputValue
-                    }
+                    value={this.state.selectedOption ? this.state.selectedOption.label : this.state.inputValueDestination}
                     variant="inline-listbox"
                   />
                 </div>
-								<div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
+                <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
                   <Combobox
-                    id="combobox-unique-id"
+										id="course"
+										target = "#target"
                     events={{
                       onChange: (event, { value }) => {
                         if (this.props.action) {
                           this.props.action("onChange")(event, value);
                         } else if (console) {
-                          console.log("onChange", event, value);
+                         // console.log("onChangeCourse", event);
                         }
-                        this.setState({ inputValue: value });
+                        this.setState({ inputValueCourse: value });
                       },
                       onRequestRemoveSelectedOption: (event, data) => {
                         this.setState({
-                          inputValue: "",
-													destination: data.selection
+                          inputValueCourse: "",
+                          course: data.selection,
                         });
                       },
-                      onSubmit: (event, { value }) => {
-                        if (this.props.action) {
-                          this.props.action("onChange")(event, value);
-                        } else if (console) {
-                         // console.log("onChange", event, value);
-                        }
-                        this.setState({
-                          inputValue: "",
-													destination : [
-                            ...this.state.destination,
-													]
-                        });
-                      },
+
                       onSelect: (event, data) => {
                         if (this.props.action) {
-                          this.props.action("onSelect")(
-                            event,
-                            ...Object.keys(data).map(key => data[key])
-                          );
+                          this.props.action("onSelect")(event, ...Object.keys(data).map(key => data[key]));
                         } else if (console) {
-                         // console.log("onSelect", event, data);
+                         // console.log("onSelectCourse", event, data);
                         }
                         this.setState({
-                          inputValue: "",
-													destination: data.selection
+                          inputValueCourse: "",
+                          course: data.selection,
                         });
-                      }
+                      },
                     }}
                     labels={{
                       label: "Course",
-                      placeholder: "Select course"
-										}}
-										required
+                      placeholder: "Select course",
+                    }}
+                    required
                     options={comboboxFilterAndLimit({
-                      inputValue: this.state.inputValue,
-                      options: accountsWithIcon,
-                      selection: this.state.destination
+                      inputValue: this.state.inputValueCourse,
+                      options: accountsWithIconCourse,
+                      selection: this.state.course,
                     })}
-                    selection={this.state.destination}
-                    value={
-                      this.state.selectedOption
-                        ? this.state.selectedOption.label
-                        : this.state.inputValue
-                    }
+                    selection={this.state.course}
+                    value={this.state.selectedOption ? this.state.selectedOption.label : this.state.inputValueCourse}
                     variant="inline-listbox"
                   />
                 </div>
               </div>
 
-              <Button
-                id="tuesday-alt"
-                label="Submit and go to next tab"
-                onClick={e => this.handleButtonClicked(e)}
-              />
+              <Button id="tuesday-alt" label="Submit and go to next tab" onClick={e => this.handleButtonClicked(e)} />
             </div>
           </div>
         </IconSettings>
