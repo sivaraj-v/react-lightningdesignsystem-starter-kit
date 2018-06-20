@@ -4,6 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
+        "dev": "webpack-dev-server --mode development",
         "build": "webpack --mode production",
         "postbuild": "rimraf dist/**/*.map"
     },
@@ -29,7 +30,8 @@
         "style-loader": "^0.21.0",
         "url-loader": "^1.0.1",
         "webpack": "^4.12.0",
-        "webpack-cli": "^3.0.8"
+        "webpack-cli": "^3.0.8",
+        "webpack-dev-server": "^3.1.4"
     },
     "dependencies": {
         "@salesforce-ux/design-system": "^2.6.1",

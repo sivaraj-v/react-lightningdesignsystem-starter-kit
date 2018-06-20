@@ -15,7 +15,7 @@ const pathConfig = {
     img: 'img/[hash]-[name].[ext]',
     js: 'js/bundle-[chunkhash].js',
     css: 'css/[name]-min.css',
-    fonts: 'css/fonts/[name].[ext]'
+    fonts: process.env.NODE_ENV === 'production' ? 'css/fonts/[name].[ext]' : './fonts/[name].[ext]'
   }
 };
 const webpackOption = {
